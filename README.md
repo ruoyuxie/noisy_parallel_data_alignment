@@ -1,21 +1,21 @@
 # Enhanced awesome-align for low-resource languages
-### About this repository
+## About this repository
 `Enhanced awesome-align` is a word alignment tool built upon on [awesome-align](https://github.com/neulab/awesome-align). 
 It is specifically designed for noisy ***low-resource languages***. 
 This repo contains the instruction and code for noise simulation and extracting the alignment. 
 
-We also release the ***gold*** word alignment pairs between an endangered language, Griko, and translations in Italian. The data can be found on `alignment_data/griko-italian`
+We also release the ***gold*** word alignment pairs between an endangered language, Griko, and translations in Italian. The gold alignment data can be found on `alignment_data/griko-italian`
 
-👉 See our paper [Noisy Parallel Data Alignment](https://arxiv.org/abs/2301.09685) for more details.
+👉 See our paper [Noisy Parallel Data Alignment](https://arxiv.org/abs/2301.09685) for more details 👈
 
 ### Installation
 Install the requirements by running the following command:
 ```bash
 pip install -r requirements.txt
+python3 setup.py install
 ```
 
-### Noise simulation
-#### Noisy analysis
+## Noise simulation
 To simulate text noise, we need to *first* calculate the noise probability and *then* generate synthetic data. 
 
 First, run the following command to calculate noise probability:
@@ -27,7 +27,6 @@ python3 noise_simulation/noise_analysis.py <parallel_data> <noisy_probability_da
 
 `noisy_probability_data` is the produced noise probability file that will be used for the next step to create synthetic data. 
 
-#### Synthetic data generation
 Next, to generate synthetic noisy data, run the following command:
 ```bash
 python3 noise_simulation/noise_adding.py <clean_input_file> <output_file> <noisy_probability_data> 
@@ -40,7 +39,7 @@ python3 noise_simulation/noise_adding.py <clean_input_file> <output_file> <noisy
 `noisy_probability_data` is the noise probability file from the previous step.
 
 
-### Running enhanced awesome-align
+## Running enhanced awesome-align
 #### Input format
 Similar to original `awesome-align`, the inputs data should be *tokenized* parallel data. 
 The source and target sentences are separated by ` ||| `. 
@@ -53,7 +52,7 @@ DATA_FILE=/path/to/alignment_data/file
 MODEL_NAME_OR_PATH=bert-base-multilingual-cased
 OUTPUT_FILE=/path/to/output/file
 
-python3 ../model/run_align.py \
+python3 model/run_align.py \
     --output_file=$OUTPUT_FILE \
     --model_name_or_path=$MODEL_NAME_OR_PATH \
     --data_file=$DATA_FILE \
@@ -70,7 +69,7 @@ TRAIN_FILE=/path/to/alignment_data/file
 MODEL_NAME_OR_PATH=bert-base-multilingual-cased
 OUTPUT_DIR=/path/to/output/dir
 
-python3 ../model/run_train.py \
+python3 model/run_train.py \
     --output_dir=$OUTPUT_DIR \
     --model_name_or_path=$MODEL_NAME_OR_PATH \
     --extraction 'softmax' \
@@ -95,7 +94,7 @@ MODEL_NAME_OR_PATH=bert-base-multilingual-cased
 OUTPUT_DIR=/path/to/output/dir
 TRAIN_GOLD_FILE=/path/to/gold/alignment/file
 
-python3 ../model/run_train.py \
+python3 model/run_train.py \
     --output_dir=$OUTPUT_DIR \
     --model_name_or_path=$MODEL_NAME_OR_PATH \
     --extraction 'softmax' \

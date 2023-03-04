@@ -1,9 +1,8 @@
 import numpy as np
 from collections import defaultdict
-import time
 import sys
 import os
-start_time = time.time()
+from tqdm import tqdm
 
 def wagner_fischer(word_1, word_2):
     n = len(word_1) + 1  # counting empty string
@@ -121,9 +120,6 @@ def align(word_1, word_2, bt):
             w_1_letter = " "
             w_2_letter = word_2[j_0]
             op = "i"
-            # print("here is insertion\n")
-            # print(word_1)
-            # print(word_2)
 
         else:  # j_0 == j_1,  deletion
             w_1_letter = word_1[i_0]
@@ -174,12 +170,6 @@ def align(word_1, word_2, bt):
 
             if w_1_letter not in search_table :
 
-
-                # ../test_first_half.txt
-                # ../Raw parallel alignment_data/all_griko_clean.txt
-                # ../clean.txt
-                # ../ICDAR2019 Data/Processed Data/EN/EN-1-clean/en-1-GS_aligned.txt
-                # ../ICDAR2019 Data/Processed Data/FR/FR-1-clean/fr-1-GS_aligned.txt
                 search_table[w_1_letter] = 1
                 total_num_chars = len(corpus) - corpus.count('\n')
             else: search_table[w_1_letter] +=1
@@ -189,6 +179,7 @@ def align(word_1, word_2, bt):
 # read the user input for parallel alignment_data file
 input_file = sys.argv[1]
 output_file = sys.argv[2]
+
 # if the user input is not correct
 if not os.path.exists(input_file):
     print("The alignment_data file does not exist")
@@ -225,7 +216,7 @@ sub_counts = defaultdict(lambda: 0)
 modified_cost = 0
 
 found = False
-for i, l in enumerate(lines):
+for i, l in tqdm(enumerate(lines)):
     l = l.strip().split('|||')
     eng = l[0].strip()
     kin = l[1].strip()
@@ -351,7 +342,6 @@ print("\nProbability_of_getting_edited=   ", pro_of_edit)
 print("Probability_of_substitution=     ", pro_of_sub)
 print("Probability_of_insertion=        ", pro_of_ins)
 
-print("--- %s seconds ---" % (time.time() - start_time))
 
 
 
